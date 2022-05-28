@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	 <endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+ <endpoint 
+		name="HelloWebService"
+		implementation="com.ave.Hello"
+		url-pattern="/ws/hello"
+	/>
+	<endpoint 
+		name="EmpleadoService"
+		implementation="com.ave.services.EmpleadoService"
+		url-pattern="/ws/empleadoservice"
+	/>
+	
+</endpoints>	 
