@@ -6,9 +6,9 @@
 		url-pattern="/ws/hello"
 	/>
 	<endpoint 
-		name="EmpleadoService"
-		implementation="com.ave.services.EmpleadoService"
-		url-pattern="/ws/empleadoservice"
-	/>
+		name="ServicioUsuario"
+		implementation="com.ave.services.UsuarioService"
+		url-pattern="/ws/usuarios"
+	/> 
 	
 </endpoints>	 

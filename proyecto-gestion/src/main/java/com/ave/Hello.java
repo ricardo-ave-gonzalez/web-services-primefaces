@@ -14,3 +14,5 @@ public class Hello {
 		return "Bonjour " + name + " " +lastName;
 	}
 }
+
+//servicio.bonjour("nombre","apellido");
