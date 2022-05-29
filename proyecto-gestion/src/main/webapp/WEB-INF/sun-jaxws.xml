@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nameOfYourRootElement>
 	 <endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
  <endpoint 
 		name="HelloWebService"
 		implementation="com.ave.Hello"
 		url-pattern="/ws/hello"
-	/>
+	/> 
 	<endpoint 
-		name="ServicioUsuario"
+		name="ServicioDeUsuarios"
 		implementation="com.ave.services.UsuarioService"
 		url-pattern="/ws/usuarios"
+	/> 
+	<endpoint 
+		name="ServicioAuth"
+		implementation="com.ave.services.AuthService"
+		url-pattern="/ws/auth"
 	/> 
 	
 </endpoints>	 

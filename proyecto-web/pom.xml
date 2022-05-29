@@ -121,7 +121,7 @@
 							<sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot>
 							<wsdlOptions>
 								<wsdlOption>
-									<wsdl>${basedir}/src/main/resources/dataaccess-numberconversion.wsdl</wsdl>
+									<wsdl>${basedir}/src/main/resources/usuarios.wsdl</wsdl>
 									<packagenames>
 										<packagename>com.ave</packagename>
 									</packagenames>

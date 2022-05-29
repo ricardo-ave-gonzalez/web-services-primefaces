@@ -8,7 +8,7 @@ import com.ave.entities.Usuario;
 public interface I_UsuarioRepository {
 
     List<Usuario> getAll();                        // select * from usuarios
-
+    
     default Stream<Usuario> getStream() {
         return getAll().stream();
     }
@@ -20,4 +20,5 @@ public interface I_UsuarioRepository {
                 .findAny()
                 .orElse(new Usuario());
     }
+    
 }
