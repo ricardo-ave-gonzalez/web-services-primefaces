@@ -51,15 +51,33 @@ public class AuthService implements I_AuthRepository{
 			EntityTransaction entr = em.getTransaction();
 			entr.begin();
 
-			Query query = em.createQuery("SELECT u FROM Usuario u WHERE u.username = ?1 AND u.password = ?2", Usuario.class);
-			query.setParameter(1, username);
-			query.setParameter(2, password);
-			try {
-				Usuario user = (Usuario) query.getSingleResult();
-				return true;
-			} catch (javax.persistence.NoResultException e) {
+			Query query = em.createQuery("SELECT u FROM Usuario u WHERE"
+	                + " u.username = :username AND u.password\u00f1a = :pasword\u00f1a", Usuario.class);
+			var jpaUsername = query.setParameter(1, username);
+			var jpaPassword = query.setParameter(2, password);
+			
+			MessageContext mc = context.getMessageContext();
+			Map requestHeader = (Map) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
+			List userList = (List) requestHeader.get("username");
+			List passList = (List) requestHeader.get("password");
+			
+			if(userList!=null&&passList!=null) {
+				username = (String) userList.get(0);
+				password = (String) passList.get(0);			
+			}
+			
+			if(jpaUsername.equals(username)&&jpaPassword.equals(password)) {
+				try {
+					Usuario user = (Usuario) query.getSingleResult();
+					return true;
+				} catch (javax.persistence.NoResultException e) {
+					e.printStackTrace();
+					return false;
+				}
+			} else {
 				return false;
 			}
+			
 		} finally {
 			em.close();
 		}
