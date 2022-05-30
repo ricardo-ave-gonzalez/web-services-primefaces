@@ -1,13 +1,18 @@
 package com.ave.services;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
 import javax.jws.WebService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.xml.ws.WebServiceContext;
@@ -17,12 +22,19 @@ import com.ave.entities.Usuario;
 import com.ave.repositories.I_AuthRepository;
 
 @WebService(endpointInterface = "com.ave.repositories.I_AuthRepository")
-public class AuthService implements I_AuthRepository{
-	
+public class AuthService implements I_AuthRepository {
+
 	@Resource
 	private WebServiceContext context;
-	
+
+	@PersistenceContext
 	private EntityManager em;
+		
+	public AuthService() {}
+
+	public AuthService(EntityManager em) {
+		this.em = em;
+	}
 
 	public String authTest(String username, String password) {
 
@@ -30,56 +42,53 @@ public class AuthService implements I_AuthRepository{
 		Map requestHeader = (Map) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
 		List userList = (List) requestHeader.get("username");
 		List passList = (List) requestHeader.get("password");
-		//String username = "";
-		//String password = "";
-		if(userList!=null&&passList!=null) {
+		// String username = "";
+		// String password = "";
+		if (userList != null && passList != null) {
 			username = (String) userList.get(0);
-			password = (String) passList.get(0);			
+			password = (String) passList.get(0);
 		}
-		if("admin".equals(username)&&"admin".equals(password)) {
+		if ("admin".equals(username) && "admin".equals(password)) {
 			return "Bonjour " + username;
 		} else {
 			return "Verifique los datos por favor.";
-		}	
+		}
 	}
+
 	
 	@Transactional
 	public boolean login(String username, String password) {
-		
+		System.out.println(username);
+		System.out.println(password); // <----------- HASTA ACA LLEGA BIEN, DEVUELTA LOS PARAMETROS BIEN
 		try {
-			
-			EntityTransaction entr = em.getTransaction();
-			entr.begin();
 
-			Query query = em.createQuery("SELECT u FROM Usuario u WHERE"
-	                + " u.username = :username AND u.password\u00f1a = :pasword\u00f1a", Usuario.class);
-			var jpaUsername = query.setParameter(1, username);
-			var jpaPassword = query.setParameter(2, password);
+			System.out.println("****************************************************************");
+			System.out.println("entro al trycatch");
 			
-			MessageContext mc = context.getMessageContext();
-			Map requestHeader = (Map) mc.get(MessageContext.HTTP_REQUEST_HEADERS);
-			List userList = (List) requestHeader.get("username");
-			List passList = (List) requestHeader.get("password");
+			List<Usuario> users = new ArrayList<>(); // <--------- EL PROBLEMA RIGE AQUÍ
+			users = (List<Usuario>) em
+					.createNamedQuery("SELECT u FROM Usuario u WHERE u.username = :nombre AND u.password = :pass", Usuario.class)
+					.setParameter("nombre", username)
+					.setParameter("pass", password)
+					.getResultList();
 			
-			if(userList!=null&&passList!=null) {
-				username = (String) userList.get(0);
-				password = (String) passList.get(0);			
-			}
+			Usuario usuario = users.get(0);
 			
-			if(jpaUsername.equals(username)&&jpaPassword.equals(password)) {
-				try {
-					Usuario user = (Usuario) query.getSingleResult();
-					return true;
-				} catch (javax.persistence.NoResultException e) {
-					e.printStackTrace();
-					return false;
-				}
-			} else {
-				return false;
-			}
-			
-		} finally {
+			System.out.println("IMPRIMO USUARIO");
+			System.out.println(usuario); //   <------------------ ME DEVUELVE NULL !!!
 			em.close();
+			
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+			
+			System.out.println(ex.getMessage());
+			//throw new RuntimeException(ex);
+			//return "Verifique los datos por favor.";
+		} finally {
+			System.out.println("****************************************************************");
+			System.out.println("entro x el finally");
 		}
+		return false;
 	}
+
 }

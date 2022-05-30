@@ -90,7 +90,6 @@
 			<version>1.0</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
@@ -241,6 +240,31 @@
 						</wsdlUrls>
 						<sourceDestDir>${project.build.directory}/generated-sources/</sourceDestDir>
 					</configuration>
+				</plugin>
+				
+					<!-- jetty-maven-plugin -->
+				<plugin>
+					<groupId>org.eclipse.jetty</groupId>
+					<artifactId>jetty-maven-plugin</artifactId>
+					<version>9.4.12.v20180830</version>
+					<configuration>
+						<httpConnector>
+							<port>8080</port>
+						</httpConnector>
+						<scanIntervalSeconds>240</scanIntervalSeconds>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.ow2.asm</groupId>
+							<artifactId>asm</artifactId>
+							<version>6.2</version>
+						</dependency>
+						<dependency>
+							<groupId>org.ow2.asm</groupId>
+							<artifactId>asm-commons</artifactId>
+							<version>6.2</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 			</plugins>
 		</pluginManagement>

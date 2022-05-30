@@ -4,10 +4,17 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "usuarios")
+@NamedQueries({
+    @NamedQuery(
+    		name="Usuario.findByUserNameAndPassword", 
+    		query="SELECT u FROM Usuario u WHERE u.username = :username AND u.password = :password")
+}) 
 public class Usuario implements Serializable {
 	
 	@Id
@@ -82,9 +89,7 @@ public class Usuario implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "com.ave.entities.Usuarios[ id=" + id + " ]";
-    }
-    
-}
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + "]";
+	}}
