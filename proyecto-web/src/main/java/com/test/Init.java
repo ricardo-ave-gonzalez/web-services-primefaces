@@ -7,11 +7,6 @@ import java.net.URL;
 public class Init {
 
 	public static void main(String[] args) throws MalformedURLException {
-		
-		//com.ave.test.ServicioSaludar service = new com.ave.test.ServicioSaludar();
-		//String bonjour = service.getHelloPort().bonjour("Andy");
-		//System.out.println(bonjour);	
-		
 		/*
 		final String endpoint = "http://localhost:8080/ROOT/ws/hello";
 		final URL url = URI.create(endpoint).toURL();
