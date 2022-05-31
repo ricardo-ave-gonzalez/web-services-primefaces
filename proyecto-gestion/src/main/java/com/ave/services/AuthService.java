@@ -60,13 +60,13 @@ public class AuthService implements I_AuthRepository {
 	@Transactional
 	public boolean login(String username, String password) {
 		System.out.println(username);
-		System.out.println(password); // <----------- HASTA ACA LLEGA BIEN, DEVUELTA LOS PARAMETROS BIEN
+		System.out.println(password); 
 		try {
 
 			System.out.println("****************************************************************");
 			System.out.println("entro al trycatch");
 			
-			List<Usuario> users = new ArrayList<>(); // <--------- EL PROBLEMA RIGE AQUÍ
+			List<Usuario> users = new ArrayList<>(); 
 			users = (List<Usuario>) em
 					.createNamedQuery(
 							"Usuario.findByUserNameAndPassword", Usuario.class)
@@ -77,12 +77,11 @@ public class AuthService implements I_AuthRepository {
 			Usuario usuario = users.get(0);
 			
 			System.out.println("IMPRIMO USUARIO");
-			System.out.println(usuario); //   <------------------ ME DEVUELVE NULL !!!
+			System.out.println(usuario); 
 			em.close();
 			return true;
 		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-			
+			ex.printStackTrace();			
 			System.out.println(ex.getMessage());
 		} finally {
 			System.out.println("****************************************************************");
