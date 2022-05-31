@@ -13,11 +13,11 @@
 
     <p:panel header="PrimeFaces Hello World Example">
       <h:panelGrid columns="2" cellpadding="4">
-        <h:outputText value="First Name: " />
-        <p:inputText value="#{helloWorld.firstName}" />
+        <h:outputText value="Usuario: " />
+        <p:inputText value="#{loginBean.getUsername()}" />
 
-        <h:outputText value="Last Name: " />
-        <p:inputText value="#{helloWorld.lastName}" />
+        <h:outputText value="Contraseña: " />
+        <p:inputText value="#{loginBean.getPassword()}" />
 
         <p:commandButton value="Submit" update="greeting"
           oncomplete="PF('greetingDialog').show()" />
@@ -34,7 +34,7 @@
     <p:dialog header="Greeting" widgetVar="greetingDialog"
       modal="true" resizable="false">
       <h:panelGrid id="greeting" columns="1" cellpadding="4">
-        <h:outputText value="#{helloWorld.showGreeting()}" />
+        <h:outputText value="#{loginBean.loginStatus()}" />
       </h:panelGrid>
     </p:dialog>
 

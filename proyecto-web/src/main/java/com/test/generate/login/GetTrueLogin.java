@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "getTrueLogin", propOrder = {
+@XmlType(name = "getTrueLoginBean", propOrder = {
     "username",
     "password"
 })
