@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 
+import com.ave.component.ConectorJPA;
 import com.ave.entities.Usuario;
 import com.ave.repositories.I_AuthRepository;
 
@@ -28,7 +29,7 @@ public class AuthService implements I_AuthRepository {
 	private WebServiceContext context;
 
 	@PersistenceContext
-	private EntityManager em;
+	EntityManager em = new ConectorJPA().getEntityManager();
 		
 	public AuthService() {}
 
@@ -67,9 +68,10 @@ public class AuthService implements I_AuthRepository {
 			
 			List<Usuario> users = new ArrayList<>(); // <--------- EL PROBLEMA RIGE AQUÍ
 			users = (List<Usuario>) em
-					.createNamedQuery("SELECT u FROM Usuario u WHERE u.username = :nombre AND u.password = :pass", Usuario.class)
-					.setParameter("nombre", username)
-					.setParameter("pass", password)
+					.createNamedQuery(
+							"Usuario.findByUserNameAndPassword", Usuario.class)
+					.setParameter("username", username)
+					.setParameter("password", password)
 					.getResultList();
 			
 			Usuario usuario = users.get(0);
@@ -77,13 +79,11 @@ public class AuthService implements I_AuthRepository {
 			System.out.println("IMPRIMO USUARIO");
 			System.out.println(usuario); //   <------------------ ME DEVUELVE NULL !!!
 			em.close();
-			
+			return true;
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
 			
 			System.out.println(ex.getMessage());
-			//throw new RuntimeException(ex);
-			//return "Verifique los datos por favor.";
 		} finally {
 			System.out.println("****************************************************************");
 			System.out.println("entro x el finally");
