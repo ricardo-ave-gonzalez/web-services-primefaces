@@ -1,5 +1,6 @@
 package com.ave.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -46,13 +47,26 @@ public class ProductoService  implements I_ProductoRepository{
 
 	@Override
 	public void remove(Producto producto) {
-		// TODO Auto-generated method stub
+		if(producto==null) return;
+		try {
+	        em.getTransaction().begin();
+	        em.remove(em.merge(producto));
+	        em.getTransaction().commit();
+	        em.close();	
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+			return;
+		} finally {
+			em.close();
+		}
 		
 	}
 
 	@Override
 	public List<Producto> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Producto> list=new ArrayList<>();
+        list=(List<Producto>)em.createQuery("SELECT u FROM Producto u", Producto.class).getResultList();
+        em.close();
+        return list;
 	}
 }
