@@ -22,35 +22,31 @@ public class AuthService implements I_AuthRepository {
 
 	@PersistenceContext
 	EntityManager em = new ConectorJPA().getEntityManager();
-		
-	public AuthService() {}
+
+	public AuthService() {
+	}
 
 	public AuthService(EntityManager em) {
 		this.em = em;
 	}
-	
+
 	@Transactional
 	public boolean login(String username, String password) {
 		System.out.println(username);
-		System.out.println(password); 
+		System.out.println(password);
 		try {
-			
-			List<Usuario> users = new ArrayList<>(); 
-			users = (List<Usuario>) em
-					.createNamedQuery(
-							"Usuario.findByUserNameAndPassword", Usuario.class)
-					.setParameter("username", username)
-					.setParameter("password", password)
-					.getResultList();
-			
-			//Usuario usuario = users.get(0);
-			
-			System.out.println("IMPRIMO USUARIO");
-			System.out.println(users); 
-			//em.close();
-			return true;
+
+			List<Usuario> users = new ArrayList<>();
+			users = (List<Usuario>) em.createNamedQuery("Usuario.findByUserNameAndPassword", Usuario.class)
+					.setParameter("username", username).setParameter("password", password).getResultList();
+			int matchCounter = 0;
+		    matchCounter = users.size();
+		    if (matchCounter == 1) {
+		        return true;
+		    }
+		    return false;
 		} catch (NullPointerException ex) {
-			ex.printStackTrace();			
+			ex.printStackTrace();
 			return false;
 		}
 	}

@@ -1,23 +1,58 @@
 package com.ave.services;
 
+import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.xml.ws.WebServiceContext;
 
+import com.ave.component.ConectorJPA;
 import com.ave.entities.Producto;
+import com.ave.repositories.I_ProductoRepository;
 
-public class ProductoService {
+public class ProductoService  implements I_ProductoRepository{
 
-	private EntityManager em;
+	@Resource
+	private WebServiceContext context;
 
+	@PersistenceContext
+	EntityManager em = new ConectorJPA().getEntityManager();
 	Logger logger = Logger.getLogger(Producto.class.getName());
+
+	public ProductoService() {}
 
 	public ProductoService(EntityManager em) {
 		super();
 		this.em = em;
 	}
+	
+	@Override
+	public void save(Producto producto) {
+		if(producto==null) return;
+		try {
+	        em.getTransaction().begin();
+	        em.persist(producto);
+	        em.getTransaction().commit();
+	        em.close();	
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+			return;
+		} finally {
+			em.close();
+		}
+	}
 
-	public Producto recuperarProduto(Producto producto) {
-		return producto;		
+	@Override
+	public void remove(Producto producto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Producto> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
