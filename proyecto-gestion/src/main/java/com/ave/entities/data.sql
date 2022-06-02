@@ -7,7 +7,8 @@ drop table if exists usuarios;
 CREATE TABLE usuarios (
   id varchar(250) NOT NULL,
   username varchar(250) NOT NULL,
-  password varchar(250) NOT NULL
+  password varchar(250) NOT NULL,
+  producto_id varchar(250)
 );
 
 ALTER TABLE usuarios
@@ -19,12 +20,18 @@ INSERT INTO usuarios (`id`, `username`, `password`) VALUES
 ('8db1716e-6189-4b61-bd91-a9323abfba0e', 'simplelogin', 'simplelogin');
 
 
-CREATE TABLE Productos (
+CREATE TABLE productos (
   id varchar(250) NOT NULL,
   descripcion varchar(250) NOT NULL,
   precio double NOT NULL
 );
 
-ALTER TABLE Productos
-  ADD PRIMARY KEY (`id`);  
+ALTER TABLE productos
+  ADD PRIMARY KEY (`id`);
+  
+ALTER TABLE usuarios
+  ADD CONSTRAINT FK_productos_usuarios
+  FOREIGN key(producto_id)
+  REFERENCES productos(id);
+
   
