@@ -7,9 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 import com.ave.repositories.I_AuthRepository;
-import com.ave.repositories.I_UsuarioRepository;
 import com.ave.services.AuthService;
-import com.ave.services.UsuarioService;
 
 public class TestRepo {
 
@@ -28,11 +26,10 @@ public class TestRepo {
         //work
         //I_UsuarioRepository us = new UsuarioService(em);
         //us.getAll().forEach(System.out::println);
-        //emf.close();
-        
+        //emf.close();       
         
         I_AuthRepository auth = new AuthService(em);
-        auth.login("simplelogin", "simplelogin");
+        auth.login("simplegglogin", "simplelogin");
 	}
 
 }
