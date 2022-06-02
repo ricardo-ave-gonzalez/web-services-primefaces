@@ -31,7 +31,7 @@ public class TestLoginBean implements Serializable {
 	public TestLoginBean() {}
 
 	//public URL url= URLFactory.create("http://localhost:8080/ROOT/ws/auth");	
-	@WebServiceRef(wsdlLocation = "http://localhost:8080/ROOT/ws/auth")
+	@WebServiceRef(wsdlLocation = "http://localhost:8081/ROOT/ws/auth")
 	AuthServiceService autoService = new AuthServiceService();
 	
 	public String getUsername() {
