@@ -12,6 +12,7 @@ import javax.xml.ws.WebServiceContext;
 
 import com.ave.component.ConectorJPA;
 import com.ave.entities.Usuario;
+import com.ave.errors.NombreInexistenteException;
 import com.ave.repositories.I_AuthRepository;
 
 @WebService(endpointInterface = "com.ave.repositories.I_AuthRepository")
@@ -31,7 +32,7 @@ public class AuthService implements I_AuthRepository {
 	}
 
 	@Transactional
-	public boolean login(String username, String password) {
+	public boolean login(String username, String password) throws NombreInexistenteException{
 		System.out.println(username);
 		System.out.println(password);
 		try {
@@ -44,7 +45,7 @@ public class AuthService implements I_AuthRepository {
 		    if (matchCounter == 1) {
 		        return true;
 		    }
-		    return false;
+		    throw new NombreInexistenteException("I am testing", null);
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
 			return false;
